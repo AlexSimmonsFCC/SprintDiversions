@@ -82,9 +82,16 @@ require([
 
       // Create feature layers
       var fOneOrMore = new VectorTileLayer({
+        url: 'https://tiles.arcgis.com/tiles/YnOQrIGdN9JGtBh4/arcgis/rest/services/F477_LTE_By_Block_OneOrMore_Providers_Dec2017/VectorTileServer/resources/styles/root.json?f=pjson&token=dls8NktxFcfUUiCiaid15zO_T-_iz491gkT5f_9v-_21sCJFaPx0GVdYTR_aP73qoR9xgy7LMCo3_zn9PyhZxyFGDiildbNDR_DbaRxQbbsUQki2IguWTiWcr-UyiSz-QRs5kGzUmMCHHgl0W40oUtxUlrOuOWBwK5In2n7mDAtGKIPPOomdPUcMeQXVKejNy_7399Ey_gircnXT14Cq_plw0maUy8Px08msKBj1VWk.',
+        outFields: ['*']
+      })
+
+
+     var fOneOrMore = new VectorTileLayer({
         url: 'https://tiles.arcgis.com/tiles/YnOQrIGdN9JGtBh4/arcgis/rest/services/F477_LTE_By_Block_OneOrMore_Providers_Dec2017/VectorTileServer?token=dls8NktxFcfUUiCiaid15zO_T-_iz491gkT5f_9v-_21sCJFaPx0GVdYTR_aP73qoR9xgy7LMCo3_zn9PyhZxyFGDiildbNDR_DbaRxQbbsUQki2IguWTiWcr-UyiSz-QRs5kGzUmMCHHgl0W40oUtxUlrOuOWBwK5In2n7mDAtGKIPPOomdPUcMeQXVKejNy_7399Ey_gircnXT14Cq_plw0maUy8Px08msKBj1VWk.',
         outFields: ['*']
       })
+
 
      var fTwoOrMore = new VectorTileLayer({
         url: 'https://tiles.arcgis.com/tiles/YnOQrIGdN9JGtBh4/arcgis/rest/services/F477_LTE_By_Block_TwoOrMore_Providers_Dec2017/VectorTileServer?token=dls8NktxFcfUUiCiaid15zO_T-_iz491gkT5f_9v-_21sCJFaPx0GVdYTR_aP73qoR9xgy7LMCo3_zn9PyhZxyFGDiildbNDR_DbaRxQbbsUQki2IguWTiWcr-UyiSz-QRs5kGzUmMCHHgl0W40oUtxUlrOuOWBwK5In2n7mDAtGKIPPOomdPUcMeQXVKejNy_7399Ey_gircnXT14Cq_plw0maUy8Px08msKBj1VWk.',
