@@ -69,19 +69,19 @@
           var fieldNames, fieldStore;
 
           fieldNames = { identifier: "value", label: "name", items: [] };
-          arrayUtils.forEach(resp.fields.slice(11, 14), function(f) { // add some field names to the FS
+          arrayUtils.forEach(resp.fields.slice(10, 14), function(f) { // add some field names to the FS
             fieldNames.items.push({ "name": f.name, "value": f.name });
           });
           fieldStore = new ItemFileReadStore({ data: fieldNames });
           registry.byId("fieldNames").set("store", fieldStore);
-          registry.byId("fieldNames").set("value", "sw_diversio"); // set a value
+          registry.byId("fieldNames").set("value", "market_pop"); // set a value
         }, function(err) {
           console.log("failed to get field names: ", err);
         });
 
         // update renderer when field name changes
         registry.byId("fieldNames").on("change", getData);
-        registry.byId("fieldNames").set("value", "sw_diversio"); // triggers getData()
+        registry.byId("fieldNames").set("value", "market_pop"); // triggers getData()
 
         function getData() {
           classBreaks(app.defaultFrom, app.defaultTo);
@@ -89,7 +89,7 @@
 
         function classBreaks(c1, c2) {
           var classDef = new ClassBreaksDefinition();
-          classDef.classificationField = registry.byId("fieldNames").get("value") || "sw_diversio";
+          classDef.classificationField = registry.byId("fieldNames").get("value") || "totalmktsu";
           classDef.classificationMethod = "natural-breaks"; // always natural breaks
           classDef.breakCount = 5; // always five classes
 
