@@ -74,14 +74,14 @@
           });
           fieldStore = new ItemFileReadStore({ data: fieldNames });
           registry.byId("fieldNames").set("store", fieldStore);
-          registry.byId("fieldNames").set("value", "POP2007"); // set a value
+          registry.byId("fieldNames").set("value", "sw_diversio"); // set a value
         }, function(err) {
           console.log("failed to get field names: ", err);
         });
 
         // update renderer when field name changes
         registry.byId("fieldNames").on("change", getData);
-        registry.byId("fieldNames").set("value", "POP_2007"); // triggers getData()
+        registry.byId("fieldNames").set("value", "sw_diversio"); // triggers getData()
 
         function getData() {
           classBreaks(app.defaultFrom, app.defaultTo);
