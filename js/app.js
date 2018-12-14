@@ -1,4 +1,39 @@
- // one global for persistent app variables
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title>Change attribute used for a renderer</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/3.27/dijit/themes/tundra/tundra.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.27/esri/css/esri.css">
+    <style>
+      html, body { height: 100%; width: 100%; margin: 0; padding: 0; }
+      h3 { margin: 0 0 5px 0; border-bottom: 1px solid #444; text-align: center; }
+      .shadow {
+        -moz-box-shadow: 0 0 5px #888;
+        -webkit-box-shadow: 0 0 5px #888;
+        box-shadow: 0 0 5px #888;
+      }
+      #map{ margin: 0; padding: 0; }
+      #feedback {
+        background: #fff;
+        color: #444;
+        font-family: arial;
+        left: 30px;
+        margin: 5px;
+        padding: 10px;
+        position: absolute;
+        top: 30px;
+        width: 300px;
+        z-index: 40;
+      }
+      #note { font-size: 80%; font-weight: 700; padding: 0 0 10px 0; }
+      #legendDiv { padding: 10px 0 0 0; }
+    </style>
+
+    <script src="https://js.arcgis.com/3.27/"></script>
+    <script>
+      // one global for persistent app variables
       var app = {};
       require([
         "esri/map",
@@ -32,7 +67,7 @@
 
         esriConfig.defaults.io.proxyUrl = "/proxy/";
 
-        app.dataUrl = "https://tiles.arcgis.com/tiles/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_MapService/MapServer";
+        app.dataUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/2";
         app.defaultFrom = "#ffffcc";
         app.defaultTo = "#006837";
 
@@ -139,3 +174,36 @@
           console.log("error: ", JSON.stringify(err));
         }
       });
+    </script>
+  </head>
+
+  <body class="tundra">
+    <div data-dojo-type="dijit/layout/BorderContainer"
+         data-dojo-props="design:'headline',gutters:false"
+         style="width: 100%; height: 100%; margin: 0;">
+      <div id="map"
+           data-dojo-type="dijit/layout/ContentPane"
+           data-dojo-props="region:'center'">
+
+        <div id="feedback" class="shadow">
+          <h3>Change the Attribute Field Used to Render Data</h3>
+          <div id="info">
+            <div id="note">
+              Note:  This sample requires an ArcGIS Server version 10.1 map service to generate a renderer.
+            </div>
+
+            
+            <label for="fieldNames">Render based on: </label>
+            <select id="fieldNames" name="baseSym"
+                    data-dojo-type="dijit/form/FilteringSelect"
+                    data-dojo-props="style:'width:200px;'">
+            </select>
+
+            <div id="legendDiv"></div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
