@@ -32,7 +32,7 @@
 
         esriConfig.defaults.io.proxyUrl = "/proxy/";
 
-        app.dataUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/2";
+        app.dataUrl = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_Join/FeatureServer";
         app.defaultFrom = "#ffffcc";
         app.defaultTo = "#006837";
 
