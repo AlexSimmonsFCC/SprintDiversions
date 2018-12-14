@@ -114,7 +114,7 @@
           drawingOptions.renderer = renderer;
           // set the drawing options for the relevant layer
           // optionsArray index corresponds to layer index in the map service
-          optionsArray[2] = drawingOptions;
+          optionsArray[0] = drawingOptions;
           app.map.getLayer("us_counties").setLayerDrawingOptions(optionsArray);
           app.map.getLayer("us_counties").show();
           // create the legend if it doesn't exist
