@@ -1,7 +1,4 @@
-
-    <script src="https://js.arcgis.com/3.27/"></script>
-    <script>
-      // one global for persistent app variables
+// one global for persistent app variables
       var app = {};
       require([
         "esri/map",
@@ -35,7 +32,7 @@
 
         esriConfig.defaults.io.proxyUrl = "/proxy/";
 
-        app.dataUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/2";
+        app.dataUrl = "https://tiles.arcgis.com/tiles/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_MapService/MapServer";
         app.defaultFrom = "#ffffcc";
         app.defaultTo = "#006837";
 
@@ -142,4 +139,3 @@
           console.log("error: ", JSON.stringify(err));
         }
       });
-    </script>
