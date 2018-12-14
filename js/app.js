@@ -89,7 +89,7 @@
 
         function classBreaks(c1, c2) {
           var classDef = new ClassBreaksDefinition();
-          classDef.classificationField = registry.byId("fieldNames").get("value") || "POP2000";
+          classDef.classificationField = registry.byId("fieldNames").get("value") || "sw_diversio";
           classDef.classificationMethod = "natural-breaks"; // always natural breaks
           classDef.breakCount = 5; // always five classes
 
