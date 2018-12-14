@@ -69,7 +69,7 @@
           var fieldNames, fieldStore;
 
           fieldNames = { identifier: "value", label: "name", items: [] };
-          arrayUtils.forEach(resp.fields.slice(6, 16), function(f) { // add some field names to the FS
+          arrayUtils.forEach(resp.fields.slice(11, 14), function(f) { // add some field names to the FS
             fieldNames.items.push({ "name": f.name, "value": f.name });
           });
           fieldStore = new ItemFileReadStore({ data: fieldNames });
