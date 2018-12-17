@@ -90,8 +90,8 @@
         function classBreaks(c1, c2) {
           var classDef = new ClassBreaksDefinition();
           classDef.classificationField = registry.byId("fieldNames").get("value") || "totalmktsu";
-          classDef.classificationMethod = "natural-breaks"; // always natural breaks
-          classDef.breakCount = 5; // always five classes
+          classDef.classificationMethod = "equal-interval"; // always natural breaks
+          
 
           var colorRamp = new AlgorithmicColorRamp();
           colorRamp.fromColor = new Color.fromHex(c1);
