@@ -32,7 +32,7 @@
 
         esriConfig.defaults.io.proxyUrl = "/proxy/";
 
-        app.dataUrl = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/ArcGIS/rest/services/CMA_MapService/FeatureServer/0?token=ZVG6tgj-1d4MClgQ9GhhVqYFd58UktGw9D6L9OehaIwlRLH05zTfJSioae48ctr1EAMPIG0tmxrQv7U0dFHPUoVXHgJqU8FQBCsIZaqmQijcKHnqPMd2y-o20f4Qk9TQ6k9oZhXnkb02JqF_1B2PHu1CTSjXIs7wGgbW0Gz9Ux4IszpSm-2oG-aZFLRr8g3OQQRrtzzfI0DtBoYbGWtqDBHU0KvttHtJk_usduohf8qeUUgjRvjV0dBnwD-w7ykR2ZLo-vLodhyr-CSEHfHVPA..";
+        app.dataUrl = "https://tiles.arcgis.com/tiles/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_MapService/MapServer/0?cacheKey=819c3691273a9cb1&token=LipUzPV5ifaME2-7nd0DeJIdS62citNyWTs1Vbj9wbsTizYMnQ-8-RVMMoROdlxfDzIyvP8fzkkCwexhNNebmu_TSLwuA4VC9d1mKDOEcdp087Ic72Cvv_DFJ53zbY8njUQl0Lv2g4_9K9oX2fGpuzD0RFeIVzwW7SuOZWzfVPHmEBPCxNH2GsbnfFoNUp8DTL7aXRFlQsCbVQ5gkUf_WeZr9OMGvRs2ZC6t-8bI1xL0b1zKGNon-a-RLSX98DiU";
         app.defaultFrom = "#ffffcc";
         app.defaultTo = "#006837";
 
