@@ -39,7 +39,7 @@
         app.map = new Map("map", {
           center: [-85.787, 39.782],
           zoom: 6,
-          slider: false
+          slider: true
         });
 
         // add US Counties as a dynamic map service layer
@@ -47,7 +47,7 @@
         var usaLayer = new ArcGISDynamicMapServiceLayer(urlDyn, {
           id: "us_counties",
           opacity: 0.7,
-          visible: false
+          visible: true
         });
         usaLayer.setVisibleLayers([0]);
         app.map.addLayer(usaLayer);
