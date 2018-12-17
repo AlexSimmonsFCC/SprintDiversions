@@ -69,7 +69,7 @@
           var fieldNames, fieldStore;
 
           fieldNames = { identifier: "value", label: "name", items: [] };
-          arrayUtils.forEach(resp.fields.slice(10, 14), function(f) { // add some field names to the FS
+          arrayUtils.forEach(resp.fields.slice(10, 12), function(f) { // add some field names to the FS
             fieldNames.items.push({ "name": f.name, "value": f.name });
           });
           fieldStore = new ItemFileReadStore({ data: fieldNames });
@@ -89,7 +89,7 @@
 
         function classBreaks(c1, c2) {
           var classDef = new ClassBreaksDefinition();
-          classDef.classificationField = registry.byId("fieldNames").get("value") || "totalmktsu";
+          classDef.classificationField = registry.byId("fieldNames").get("value") || "market_pop";
           classDef.classificationMethod = "natural-breaks"; // always natural breaks
           classDef.breakCount = 5; // always five classes
 
