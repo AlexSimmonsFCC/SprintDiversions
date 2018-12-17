@@ -32,22 +32,27 @@
 
      esriConfig.defaults.io.proxyUrl = "/proxy/";
 
-        app.dataUrl = "https://tiles.arcgis.com/tiles/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_Service/MapServer/0";
+        app.dataUrl = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_Service/FeatureServer/0";
         app.defaultFrom = "#ffffcc";
         app.defaultTo = "#006837";
 
         app.map = new Map("map", {
           center: [-85.787, 39.782],
           zoom: 6,
-          slider: true
+          slider: false
         });
 
+        var basemap = new ArcGISTiledMapServiceLayer("https://services.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer");
+        app.map.addLayer(basemap);
+        var ref = new ArcGISTiledMapServiceLayer("https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Reference_Overlay/MapServer");
+        app.map.addLayer(ref);
+
         // add US Counties as a dynamic map service layer
-        var urlDyn = "https://tiles.arcgis.com/tiles/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_Service/MapServer";
+        var urlDyn = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_Service/FeatureServer";
         var usaLayer = new ArcGISDynamicMapServiceLayer(urlDyn, {
           id: "us_counties",
           opacity: 0.7,
-          visible: true
+          visible: false
         });
         usaLayer.setVisibleLayers([0]);
         app.map.addLayer(usaLayer);
@@ -85,8 +90,8 @@
         function classBreaks(c1, c2) {
           var classDef = new ClassBreaksDefinition();
           classDef.classificationField = registry.byId("fieldNames").get("value") || "totalmktsu";
-          classDef.classificationMethod = "equal-interval"; // always natural breaks
-          
+          classDef.classificationMethod = "natural-breaks"; // always natural breaks
+          classDef.breakCount = 5; // always five classes
 
           var colorRamp = new AlgorithmicColorRamp();
           colorRamp.fromColor = new Color.fromHex(c1);
