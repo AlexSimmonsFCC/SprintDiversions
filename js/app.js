@@ -56,7 +56,7 @@
           opacity: 0.7,
           visible: false
         });
-        usaLayer.setVisibleLayers([0]);
+        usaLayer.setVisibleLayers([2]);
         app.map.addLayer(usaLayer);
 
         // get field info
@@ -71,7 +71,7 @@
           var fieldNames, fieldStore;
 
           fieldNames = { identifier: "value", label: "name", items: [] };
-          arrayUtils.forEach(resp.fields.slice(10, 12), function(f) { // add some field names to the FS
+          arrayUtils.forEach(resp.fields.slice(6, 16), function(f) { // add some field names to the FS
             fieldNames.items.push({ "name": f.name, "value": f.name });
           });
           fieldStore = new ItemFileReadStore({ data: fieldNames });
