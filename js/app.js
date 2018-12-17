@@ -30,9 +30,9 @@
       ) {
         parser.parse();
 
-        esriConfig.defaults.io.proxyUrl = "/proxy/";
+     esriConfig.defaults.io.proxyUrl = "/proxy/";
 
-        app.dataUrl = "https://tiles.arcgis.com/tiles/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_MapService/MapServer/0?cacheKey=819c3691273a9cb1&token=LipUzPV5ifaME2-7nd0DeJIdS62citNyWTs1Vbj9wbsTizYMnQ-8-RVMMoROdlxfDzIyvP8fzkkCwexhNNebmu_TSLwuA4VC9d1mKDOEcdp087Ic72Cvv_DFJ53zbY8njUQl0Lv2g4_9K9oX2fGpuzD0RFeIVzwW7SuOZWzfVPHmEBPCxNH2GsbnfFoNUp8DTL7aXRFlQsCbVQ5gkUf_WeZr9OMGvRs2ZC6t-8bI1xL0b1zKGNon-a-RLSX98DiU";
+        app.dataUrl = "https://tiles.arcgis.com/tiles/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_MapService/MapServer/0";
         app.defaultFrom = "#ffffcc";
         app.defaultTo = "#006837";
 
@@ -48,7 +48,7 @@
         app.map.addLayer(ref);
 
         // add US Counties as a dynamic map service layer
-        var urlDyn = "https://tiles.arcgis.com/tiles/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_MapService/MapServer?token=LipUzPV5ifaME2-7nd0DeJIdS62citNyWTs1Vbj9wbsTizYMnQ-8-RVMMoROdlxfDzIyvP8fzkkCwexhNNebmu_TSLwuA4VC9d1mKDOEcdp087Ic72Cvv_DFJ53zbY8njUQl0Lv2g4_9K9oX2fGpuzD0RFeIVzwW7SuOZWzfVPHmEBPCxNH2GsbnfFoNUp8DTL7aXRFlQsCbVQ5gkUf_WeZr9OMGvRs2ZC6t-8bI1xL0b1zKGNon-a-RLSX98DiU";
+        var urlDyn = "https://tiles.arcgis.com/tiles/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_MapService/MapServer/";
         var usaLayer = new ArcGISDynamicMapServiceLayer(urlDyn, {
           id: "us_counties",
           opacity: 0.7,
