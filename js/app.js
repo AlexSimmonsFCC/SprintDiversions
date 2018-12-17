@@ -32,9 +32,7 @@
 
      esriConfig.defaults.io.proxyUrl = "/proxy/";
 
-            
-            
-        app.dataUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/2";
+        app.dataUrl = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_Service/FeatureServer/0";
         app.defaultFrom = "#ffffcc";
         app.defaultTo = "#006837";
 
@@ -50,13 +48,13 @@
         app.map.addLayer(ref);
 
         // add US Counties as a dynamic map service layer
-        var urlDyn = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer";
+        var urlDyn = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_Service/FeatureServer";
         var usaLayer = new ArcGISDynamicMapServiceLayer(urlDyn, {
           id: "us_counties",
           opacity: 0.7,
           visible: false
         });
-        usaLayer.setVisibleLayers([2]);
+        usaLayer.setVisibleLayers([0]);
         app.map.addLayer(usaLayer);
 
         // get field info
@@ -71,7 +69,7 @@
           var fieldNames, fieldStore;
 
           fieldNames = { identifier: "value", label: "name", items: [] };
-          arrayUtils.forEach(resp.fields.slice(6, 16), function(f) { // add some field names to the FS
+          arrayUtils.forEach(resp.fields.slice(10, 14), function(f) { // add some field names to the FS
             fieldNames.items.push({ "name": f.name, "value": f.name });
           });
           fieldStore = new ItemFileReadStore({ data: fieldNames });
@@ -91,7 +89,7 @@
 
         function classBreaks(c1, c2) {
           var classDef = new ClassBreaksDefinition();
-          classDef.classificationField = registry.byId("fieldNames").get("value") || "market_pop";
+          classDef.classificationField = registry.byId("fieldNames").get("value") || "totalmktsu";
           classDef.classificationMethod = "natural-breaks"; // always natural breaks
           classDef.breakCount = 5; // always five classes
 
