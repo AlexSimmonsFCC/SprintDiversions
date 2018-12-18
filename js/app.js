@@ -46,7 +46,7 @@
 
         // various info for the feature layer
         app.countiesUrl = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/ArcGIS/rest/services/CMA_Service/FeatureServer/0";
-        app.layerDef = "YEAR = '2011'";
+        app.layerDef = "cmaname = 'Seattle-Everett, WA'";
         app.outFields = ["marketname", "totalmktsu", "swdiversio", "swdivers_1", "swdivers_2", "swdivers_3", "Wtd_swdive"];
         app.currentAttribute = "totalmktsu";
         app.popupTemplate = new PopupTemplate({
@@ -157,7 +157,7 @@
           app.map.infoWindow.hide();
           delete app.popupTemplate;
           app.popupTemplate = new PopupTemplate({
-            title: "{NAME} County",
+            title: "{marketname} County",
             fieldInfos: [{ 
               "fieldName": ch, 
               "label": app.fields[ch], 
