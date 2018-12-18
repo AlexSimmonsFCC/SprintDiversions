@@ -101,8 +101,8 @@
         
         fieldStore = new ItemFileReadStore({ data: fieldNames });
         fieldSelect = new FilteringSelect({
-          displayedValue: fieldNames.items[0].name,
-          value: fieldNames.items[0].value,
+          displayedValue: fieldNames.items[1].name,
+          value: fieldNames.items[1].value,
           name: "fieldsFS", 
           required: false,
           store: fieldStore, 
