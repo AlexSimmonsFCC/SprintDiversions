@@ -98,10 +98,6 @@
         var fieldNames, fieldStore, fieldSelect;
         fieldNames = { "identifier": "value", "label": "name", "items": []};
         arrayUtils.forEach(app.outFields, function(f) {
-          if ( arrayUtils.indexOf(f.split("_"), "NAME") == -1 ) { // exclude attrs that contain "NAME"
-            fieldNames.items.push({ "name": app.fields[f], "value": f });
-          }
-        });
         
         fieldStore = new ItemFileReadStore({ data: fieldNames });
         fieldSelect = new FilteringSelect({
