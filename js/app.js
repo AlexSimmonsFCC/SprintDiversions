@@ -1,4 +1,6 @@
 // one global for persistent app variables
+<script src="https://js.arcgis.com/3.27/"></script>
+    <script>
       var app = {};
       require([
         "esri/map",
@@ -139,3 +141,4 @@
           console.log("error: ", JSON.stringify(err));
         }
       });
+ </script>
