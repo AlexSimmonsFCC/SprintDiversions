@@ -29,10 +29,9 @@
         // set up an object to use as a lookup table to convert from terse field
         // names to more user friendly field names
         app.fields = { 
-          "POP2007": "Population(2007)", "POP07_SQMI": "Population/Square Mile(2007)", 
-          "WHITE": "White", "BLACK": "Black", "AMERI_ES": "Native Americans", 
-          "HISPANIC": "Hispanic", "ASIAN": "Asian", "HAWN_PI": "Native Hawaiian/Pacific Islander", 
-          "MULT_RACE": "Multiple Races", "OTHER": "Other" 
+          "marketname": "Market Name", "totalmktsu": "Market Population", 
+          "swdiversio": "Verizon to Verizon", "swdivers_1": "Verizon to ATT&T", "swdivers_2": "Verizon to T-Mobile", 
+          "swdivers_3 ": "Verizon to Spring", "Wtd_swdive": "Verizon to Other" 
         };
         
         app.map = new Map("map", { 
@@ -46,12 +45,12 @@
         app.map.addLayer(ref);
 
         // various info for the feature layer
-        app.countiesUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/2";
-        app.layerDef = "STATE_NAME = 'Washington'";
-        app.outFields = ["POP2007", "POP07_SQMI", "WHITE", "BLACK", "AMERI_ES", "ASIAN", "HAWN_PI", "OTHER", "MULT_RACE", "HISPANIC", "STATE_NAME", "NAME"];
-        app.currentAttribute = "POP2007";
+        app.countiesUrl = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/ArcGIS/rest/services/CMA_Service/FeatureServer/0";
+        app.layerDef = "YEAR = '2011'";
+        app.outFields = ["marketname", "totalmktsu", "swdiversio", "swdivers_1", "swdivers_2", "swdivers_3", "Wtd_swdive"];
+        app.currentAttribute = "totalmktsu";
         app.popupTemplate = new PopupTemplate({
-          title: "{NAME} County",
+          title: "{marketname}",
           fieldInfos: [{ 
             "fieldName": app.currentAttribute, 
             "label": app.fields[app.currentAttribute],
@@ -92,7 +91,7 @@
           app.defaultFrom = Color.fromHex("#998ec3");
           app.defaultTo = Color.fromHex("#f1a340");
           
-          createRenderer("POP2007");
+          createRenderer("totalmktsu");
         });
         
         app.map.on("zoom-end", updateMaxOffset);
