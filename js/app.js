@@ -74,7 +74,7 @@
 
           // show selected attribute on click
           app.mapClick = app.wash.on("click", function(evt) {
-            var name = evt.graphic.attributes.NAME + " County",
+            var name = evt.graphic.attributes.cmaname + "87",
                 ca = app.currentAttribute,
                 content = app.fields[ca] + ": " + number.format(evt.graphic.attributes[ca]);
             app.map.infoWindow.setTitle(name);
