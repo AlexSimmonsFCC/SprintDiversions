@@ -31,10 +31,7 @@
         // set up an object to use as a lookup table to convert from terse field
         // names to more user friendly field names
         app.fields = { 
-          "POP2007": "Population(2007)", "POP07_SQMI": "Population/Square Mile(2007)", 
-          "WHITE": "White", "BLACK": "Black", "AMERI_ES": "Native Americans", 
-          "HISPANIC": "Hispanic", "ASIAN": "Asian", "HAWN_PI": "Native Hawaiian/Pacific Islander", 
-          "MULT_RACE": "Multiple Races", "OTHER": "Other" 
+          "market_pop": "Market Population"
         };
         
         app.map = new Map("map", { 
@@ -48,12 +45,12 @@
         app.map.addLayer(ref);
 
         // various info for the feature layer
-        app.countiesUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/2";
-        app.layerDef = "STATE_NAME = 'Washington'";
-        app.outFields = ["POP2007", "POP07_SQMI", "WHITE", "BLACK", "AMERI_ES", "ASIAN", "HAWN_PI", "OTHER", "MULT_RACE", "HISPANIC", "STATE_NAME", "NAME"];
-        app.currentAttribute = "POP2007";
+        app.countiesUrl = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_Service/FeatureServer/0";
+        //app.layerDef = "STATE_NAME = 'Washington'";
+        app.outFields = ["cmaname","market_pop"];
+        app.currentAttribute = "market_pop";
         app.popupTemplate = new PopupTemplate({
-          title: "{NAME} County",
+          title: "{cmaname} County",
           fieldInfos: [{ 
             "fieldName": app.currentAttribute, 
             "label": app.fields[app.currentAttribute],
@@ -94,7 +91,7 @@
           app.defaultFrom = Color.fromHex("#998ec3");
           app.defaultTo = Color.fromHex("#f1a340");
           
-          createRenderer("POP2007");
+          createRenderer("market_pop");
         });
         
         app.map.on("zoom-end", updateMaxOffset);
@@ -103,7 +100,7 @@
         var fieldNames, fieldStore, fieldSelect;
         fieldNames = { "identifier": "value", "label": "name", "items": []};
         arrayUtils.forEach(app.outFields, function(f) {
-          if ( arrayUtils.indexOf(f.split("_"), "NAME") == -1 ) { // exclude attrs that contain "NAME"
+          if ( arrayUtils.indexOf(f.split(" "), "cnamname") == -1 ) { // exclude attrs that contain "NAME"
             fieldNames.items.push({ "name": app.fields[f], "value": f });
           }
         });
@@ -160,7 +157,7 @@
           app.map.infoWindow.hide();
           delete app.popupTemplate;
           app.popupTemplate = new PopupTemplate({
-            title: "{NAME} County",
+            title: "{cnamname} County",
             fieldInfos: [{ 
               "fieldName": ch, 
               "label": app.fields[ch], 
