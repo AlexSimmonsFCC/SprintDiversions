@@ -46,7 +46,6 @@
 
         // various info for the feature layer
         app.countiesUrl = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/ArcGIS/rest/services/CMA_Service/FeatureServer/0";
-        app.layerDef = "cmaname = 'Seattle-Everett, WA'";
         app.outFields = ["marketname", "totalmktsu", "swdiversio", "swdivers_1", "swdivers_2", "swdivers_3", "Wtd_swdive"];
         app.currentAttribute = "totalmktsu";
         app.popupTemplate = new PopupTemplate({
@@ -71,8 +70,7 @@
             "outFields": app.outFields,
             "opacity": 0.8
           });
-          // apply a layer def to show only counties in Washington
-          app.wash.setDefinitionExpression(app.layerDef);
+
 
           // show selected attribute on click
           app.mapClick = app.wash.on("click", function(evt) {
