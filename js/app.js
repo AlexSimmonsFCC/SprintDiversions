@@ -1,142 +1,209 @@
 // one global for persistent app variables
       var app = {};
       require([
-        "esri/map",
-        "esri/layers/ArcGISTiledMapServiceLayer", "esri/layers/ArcGISDynamicMapServiceLayer",
-        "esri/request", "esri/config",
+        "esri/map", 
+        "esri/layers/ArcGISTiledMapServiceLayer", "esri/layers/FeatureLayer", 
         "esri/tasks/ClassBreaksDefinition", "esri/tasks/AlgorithmicColorRamp",
         "esri/tasks/GenerateRendererParameters", "esri/tasks/GenerateRendererTask",
-        "esri/layers/LayerDrawingOptions",
-        "esri/symbols/SimpleFillSymbol", "esri/dijit/Legend",
-        "dojo/parser", "dojo/_base/array", "esri/Color", "dojo/dom-style",
-        "dojo/json", "dojo/dom",
-        "dojo/data/ItemFileReadStore",
-        "dijit/registry",
-
-        "dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dijit/form/FilteringSelect",
+        "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleFillSymbol", 
+        "esri/dijit/PopupTemplate", "esri/dijit/Legend",
+        "dojo/parser", "dojo/_base/array", "esri/Color",
+        "dojo/dom", "dojo/dom-construct", "dojo/number",
+        "dojo/data/ItemFileReadStore", "dijit/form/FilteringSelect",
+        
+        "dijit/layout/BorderContainer", "dijit/layout/ContentPane",
         "dojo/domReady!"
       ], function(
-        Map,
-        ArcGISTiledMapServiceLayer, ArcGISDynamicMapServiceLayer,
-        esriRequest, esriConfig,
+        Map, 
+        ArcGISTiledMapServiceLayer, FeatureLayer, 
         ClassBreaksDefinition, AlgorithmicColorRamp,
         GenerateRendererParameters, GenerateRendererTask,
-        LayerDrawingOptions,
-        SimpleFillSymbol, Legend,
-        parser, arrayUtils, Color, domStyle,
-        JSON, dom,
-        ItemFileReadStore,
-        registry
+        SimpleLineSymbol, SimpleFillSymbol, 
+        PopupTemplate, Legend,
+        parser, arrayUtils, Color, 
+        dom, domConstruct, number,
+        ItemFileReadStore, FilteringSelect
       ) {
         parser.parse();
-
-     esriConfig.defaults.io.proxyUrl = "/proxy/";
-
-            
-        app.dataUrl = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_ZippedHost/FeatureServer/0";
-        app.defaultFrom = "#ffffcc";
-        app.defaultTo = "#006837";
-
-        app.map = new Map("map", {
-          center: [-85.787, 39.782],
-          zoom: 6,
+        // the counties map service uses the actual field name as the field alias
+        // set up an object to use as a lookup table to convert from terse field
+        // names to more user friendly field names
+        app.fields = { 
+          "POP2007": "Population(2007)", "POP07_SQMI": "Population/Square Mile(2007)", 
+          "WHITE": "White", "BLACK": "Black", "AMERI_ES": "Native Americans", 
+          "HISPANIC": "Hispanic", "ASIAN": "Asian", "HAWN_PI": "Native Hawaiian/Pacific Islander", 
+          "MULT_RACE": "Multiple Races", "OTHER": "Other" 
+        };
+        
+        app.map = new Map("map", { 
+          center: [-123.113, 47.035],
+          zoom: 7,
           slider: false
         });
-
         var basemap = new ArcGISTiledMapServiceLayer("https://services.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer");
         app.map.addLayer(basemap);
         var ref = new ArcGISTiledMapServiceLayer("https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Reference_Overlay/MapServer");
         app.map.addLayer(ref);
 
-        // add US Counties as a dynamic map service layer
-        var urlDyn = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_ZippedHost/FeatureServer";
-        var usaLayer = new ArcGISDynamicMapServiceLayer(urlDyn, {
-          id: "us_counties",
-          opacity: 0.7,
-          visible: false
+        // various info for the feature layer
+        app.countiesUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/2";
+        app.layerDef = "STATE_NAME = 'Washington'";
+        app.outFields = ["POP2007", "POP07_SQMI", "WHITE", "BLACK", "AMERI_ES", "ASIAN", "HAWN_PI", "OTHER", "MULT_RACE", "HISPANIC", "STATE_NAME", "NAME"];
+        app.currentAttribute = "POP2007";
+        app.popupTemplate = new PopupTemplate({
+          title: "{NAME} County",
+          fieldInfos: [{ 
+            "fieldName": app.currentAttribute, 
+            "label": app.fields[app.currentAttribute],
+            "visible": true, 
+            "format": { places: 0, digitSeparator: true } 
+          }],
+          showAttachments: true
         });
-        usaLayer.setVisibleLayers([0]);
-        app.map.addLayer(usaLayer);
-
-        // get field info
-        var countyFields = esriRequest({
-          url: app.dataUrl,
-          content: {
-            f: "json"
-          },
-          callbackParamName: "callback"
-        });
-        countyFields.then(function(resp) {
-          var fieldNames, fieldStore;
-
-          fieldNames = { identifier: "value", label: "name", items: [] };
-          arrayUtils.forEach(resp.fields.slice(10, 14), function(f) { // add some field names to the FS
-            fieldNames.items.push({ "name": f.name, "value": f.name });
+        
+        // create a feature layer 
+        // wait for map to load so the map's extent is available
+        app.map.on("load", function() {
+          app.wash = new FeatureLayer(app.countiesUrl, {
+            "id": "Washington",
+            "infoTemplate": app.popupTemplate,
+            "maxAllowableOffset": maxOffset(),
+            "mode": FeatureLayer.MODE_SNAPSHOT,
+            "outFields": app.outFields,
+            "opacity": 0.8
           });
-          fieldStore = new ItemFileReadStore({ data: fieldNames });
-          registry.byId("fieldNames").set("store", fieldStore);
-          registry.byId("fieldNames").set("value", "market_pop"); // set a value
-        }, function(err) {
-          console.log("failed to get field names: ", err);
+          // apply a layer def to show only counties in Washington
+          app.wash.setDefinitionExpression(app.layerDef);
+
+          // show selected attribute on click
+          app.mapClick = app.wash.on("click", function(evt) {
+            var name = evt.graphic.attributes.NAME + " County",
+                ca = app.currentAttribute,
+                content = app.fields[ca] + ": " + number.format(evt.graphic.attributes[ca]);
+            app.map.infoWindow.setTitle(name);
+            app.map.infoWindow.setContent(content);
+            // show info window at correct location based on the event's properties
+            (evt) ? app.map.infoWindow.show(evt.screenPoint, app.map.getInfoWindowAnchor(evt.screenPoint)) : null;
+          }); 
+          
+          app.map.addLayer(app.wash);
+
+          // colors for the renderer
+          app.defaultFrom = Color.fromHex("#998ec3");
+          app.defaultTo = Color.fromHex("#f1a340");
+          
+          createRenderer("POP2007");
         });
+        
+        app.map.on("zoom-end", updateMaxOffset);
 
-        // update renderer when field name changes
-        registry.byId("fieldNames").on("change", getData);
-        registry.byId("fieldNames").set("value", "market_pop"); // triggers getData()
+        // create a store and a filtering select for the county layer's fields
+        var fieldNames, fieldStore, fieldSelect;
+        fieldNames = { "identifier": "value", "label": "name", "items": []};
+        arrayUtils.forEach(app.outFields, function(f) {
+          if ( arrayUtils.indexOf(f.split("_"), "NAME") == -1 ) { // exclude attrs that contain "NAME"
+            fieldNames.items.push({ "name": app.fields[f], "value": f });
+          }
+        });
+        
+        fieldStore = new ItemFileReadStore({ data: fieldNames });
+        fieldSelect = new FilteringSelect({
+          displayedValue: fieldNames.items[0].name,
+          value: fieldNames.items[0].value,
+          name: "fieldsFS", 
+          required: false,
+          store: fieldStore, 
+          searchAttr: "name",
+          style: { "width": "290px", "fontSize": "12pt", "color": "#444" }
+        }, domConstruct.create("div", null, dom.byId("fieldWrapper")));
+        fieldSelect.on("change", updateAttribute);
 
-        function getData() {
-          classBreaks(app.defaultFrom, app.defaultTo);
-        }
-
-        function classBreaks(c1, c2) {
+        function createRenderer(field) {
+          app.sfs = new SimpleFillSymbol(
+            SimpleFillSymbol.STYLE_SOLID,
+            new SimpleLineSymbol(
+              SimpleLineSymbol.STYLE_SOLID,
+              new Color([0, 0, 0]), 
+              0.5 
+            ),
+            null
+          );
           var classDef = new ClassBreaksDefinition();
-          classDef.classificationField = registry.byId("fieldNames").get("value") || "totalmktsu";
-          classDef.classificationMethod = "natural-breaks"; // always natural breaks
-          classDef.breakCount = 5; // always five classes
+          classDef.classificationField = app.currentAttribute;
+          classDef.classificationMethod = "quantile";
+          classDef.breakCount = 5;
+          classDef.baseSymbol = app.sfs; 
 
           var colorRamp = new AlgorithmicColorRamp();
-          colorRamp.fromColor = new Color.fromHex(c1);
-          colorRamp.toColor = new Color.fromHex(c2);
+          colorRamp.fromColor = app.defaultFrom;
+          colorRamp.toColor = app.defaultTo;
           colorRamp.algorithm = "hsv"; // options are:  "cie-lab", "hsv", "lab-lch"
-
-          classDef.baseSymbol = new SimpleFillSymbol("solid", null, null);
           classDef.colorRamp = colorRamp;
 
           var params = new GenerateRendererParameters();
           params.classificationDefinition = classDef;
-          var generateRenderer = new GenerateRendererTask(app.dataUrl);
+          // limit the renderer to data being shown by the feature layer
+          params.where = app.layerDef; 
+          var generateRenderer = new GenerateRendererTask(app.countiesUrl);
           generateRenderer.execute(params, applyRenderer, errorHandler);
         }
 
         function applyRenderer(renderer) {
-          // dynamic layer stuff
-          var optionsArray = [];
-          var drawingOptions = new LayerDrawingOptions();
-          drawingOptions.renderer = renderer;
-          // set the drawing options for the relevant layer
-          // optionsArray index corresponds to layer index in the map service
-          optionsArray[0] = drawingOptions;
-          app.map.getLayer("us_counties").setLayerDrawingOptions(optionsArray);
-          app.map.getLayer("us_counties").show();
-          // create the legend if it doesn't exist
-          if ( ! app.hasOwnProperty("legend") ) {
-            createLegend();
-          }
+          app.wash.setRenderer(renderer);
+          app.wash.redraw();
+          createLegend(app.map, app.wash);
         }
 
-        function createLegend() {
+        function updateAttribute(ch) {
+          app.map.infoWindow.hide();
+          delete app.popupTemplate;
+          app.popupTemplate = new PopupTemplate({
+            title: "{NAME} County",
+            fieldInfos: [{ 
+              "fieldName": ch, 
+              "label": app.fields[ch], 
+              "visible": true, 
+              "format": { places: 0, digitSeparator: true } 
+            }],
+            showAttachments: false
+          });
+          app.wash.setInfoTemplate(app.popupTemplate);
+          app.currentAttribute = ch;
+          createRenderer(ch);
+          createLegend(app.map, app.wash);
+        }
+
+        function createLegend(map, fl) {
+          // destroy previous legend, if present
+          if ( app.hasOwnProperty("legend") ) {
+            app.legend.destroy();
+            domConstruct.destroy(dojo.byId("legendDiv"));
+          }
+          // create a new div for the legend
+          var legendDiv = domConstruct.create("div", {
+            id: "legendDiv"
+          }, dom.byId("legendWrapper"));
+
           app.legend = new Legend({
-            map : app.map,
-            layerInfos : [ {
-              layer : app.map.getLayer("us_counties"),
-              title : "US Counties"
-            } ]
-          }, dom.byId("legendDiv"));
+            map : map,
+            layerInfos : [{
+              layer : fl,
+              title : "Census Attribute: " + app.fields[app.currentAttribute]
+            }]
+          }, legendDiv);
           app.legend.startup();
         }
 
+        function updateMaxOffset() {
+          var offset = maxOffset();
+          app.wash.setMaxAllowableOffset(offset);
+        }
+
+        function maxOffset() {
+          return (app.map.extent.getWidth() / app.map.width);
+        }
+
         function errorHandler(err) {
-          // console.log("Something broke, error: ", err);
-          console.log("error: ", JSON.stringify(err));
+          console.log('Oops, error: ', err);
         }
       });
