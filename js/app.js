@@ -29,7 +29,7 @@
         // set up an object to use as a lookup table to convert from terse field
         // names to more user friendly field names
         app.fields = { 
-          "market_pop": "Market Population"
+          "market_pop": "Market Population", "swdiversio": "Verizon to Verizon"
         };
         
         app.map = new Map("map", { 
@@ -45,7 +45,7 @@
         // various info for the feature layer
         app.countiesUrl = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_Service/FeatureServer/0";
         //app.layerDef = "STATE_NAME = 'Washington'";
-        app.outFields = ["cmaname","market_pop"];
+        app.outFields = ["swdiversio","market_pop"];
         app.currentAttribute = "market_pop";
         app.popupTemplate = new PopupTemplate({
           title: "{cmaname} County",
