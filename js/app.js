@@ -32,7 +32,8 @@
 
      esriConfig.defaults.io.proxyUrl = "/proxy/";
 
-        app.dataUrl = "https://tiles.arcgis.com/tiles/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_Service/MapServer/0";
+            
+        app.dataUrl = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/ArcGIS/rest/services/CMA_Service/FeatureServer/0";
         app.defaultFrom = "#ffffcc";
         app.defaultTo = "#006837";
 
@@ -48,7 +49,7 @@
         app.map.addLayer(ref);
 
         // add US Counties as a dynamic map service layer
-        var urlDyn = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/";
+        var urlDyn = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/ArcGIS/rest/services/CMA_Service/FeatureServer";
         var usaLayer = new ArcGISDynamicMapServiceLayer(urlDyn, {
           id: "us_counties",
           opacity: 0.7,
