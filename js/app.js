@@ -1,6 +1,4 @@
-<script src="https://js.arcgis.com/3.27/"></script>
-    <script>
-      // one global for persistent app variables
+// one global for persistent app variables
       var app = {};
       require([
         "esri/map", 
