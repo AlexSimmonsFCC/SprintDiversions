@@ -103,6 +103,9 @@
           }
         });
         
+        console.log(fieldNames);    
+            
+            
         fieldStore = new ItemFileReadStore({ data: fieldNames });
         fieldSelect = new FilteringSelect({
           displayedValue: fieldNames.items[0].name,
