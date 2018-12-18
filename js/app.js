@@ -1,4 +1,6 @@
-// one global for persistent app variables
+<script src="https://js.arcgis.com/3.27/"></script>
+    <script>
+      // one global for persistent app variables
       var app = {};
       require([
         "esri/map", 
@@ -29,9 +31,10 @@
         // set up an object to use as a lookup table to convert from terse field
         // names to more user friendly field names
         app.fields = { 
-          "marketname": "Market Name", "totalmktsu": "Market Population", 
-          "swdiversio": "Verizon to Verizon", "swdivers_1": "Verizon to ATT&T", "swdivers_2": "Verizon to T-Mobile", 
-          "swdivers_3 ": "Verizon to Spring", "Wtd_swdive": "Verizon to Other" 
+          "POP2007": "Population(2007)", "POP07_SQMI": "Population/Square Mile(2007)", 
+          "WHITE": "White", "BLACK": "Black", "AMERI_ES": "Native Americans", 
+          "HISPANIC": "Hispanic", "ASIAN": "Asian", "HAWN_PI": "Native Hawaiian/Pacific Islander", 
+          "MULT_RACE": "Multiple Races", "OTHER": "Other" 
         };
         
         app.map = new Map("map", { 
@@ -45,11 +48,12 @@
         app.map.addLayer(ref);
 
         // various info for the feature layer
-        app.countiesUrl = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/ArcGIS/rest/services/CMA_Service/FeatureServer/0";
-        app.outFields = ["marketname", "totalmktsu", "swdiversio", "swdivers_1", "swdivers_2", "swdivers_3", "Wtd_swdive"];
-        app.currentAttribute = "totalmktsu";
+        app.countiesUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/2";
+        app.layerDef = "STATE_NAME = 'Washington'";
+        app.outFields = ["POP2007", "POP07_SQMI", "WHITE", "BLACK", "AMERI_ES", "ASIAN", "HAWN_PI", "OTHER", "MULT_RACE", "HISPANIC", "STATE_NAME", "NAME"];
+        app.currentAttribute = "POP2007";
         app.popupTemplate = new PopupTemplate({
-          title: "{marketname}",
+          title: "{NAME} County",
           fieldInfos: [{ 
             "fieldName": app.currentAttribute, 
             "label": app.fields[app.currentAttribute],
@@ -70,11 +74,12 @@
             "outFields": app.outFields,
             "opacity": 0.8
           });
-
+          // apply a layer def to show only counties in Washington
+          app.wash.setDefinitionExpression(app.layerDef);
 
           // show selected attribute on click
           app.mapClick = app.wash.on("click", function(evt) {
-            var name = evt.graphic.attributes.cmaname + "87",
+            var name = evt.graphic.attributes.NAME + " County",
                 ca = app.currentAttribute,
                 content = app.fields[ca] + ": " + number.format(evt.graphic.attributes[ca]);
             app.map.infoWindow.setTitle(name);
@@ -89,7 +94,7 @@
           app.defaultFrom = Color.fromHex("#998ec3");
           app.defaultTo = Color.fromHex("#f1a340");
           
-          createRenderer("totalmktsu");
+          createRenderer("POP2007");
         });
         
         app.map.on("zoom-end", updateMaxOffset);
@@ -103,9 +108,6 @@
           }
         });
         
-        console.log(fieldNames);    
-            
-            
         fieldStore = new ItemFileReadStore({ data: fieldNames });
         fieldSelect = new FilteringSelect({
           displayedValue: fieldNames.items[0].name,
@@ -158,7 +160,7 @@
           app.map.infoWindow.hide();
           delete app.popupTemplate;
           app.popupTemplate = new PopupTemplate({
-            title: "{marketname} County",
+            title: "{NAME} County",
             fieldInfos: [{ 
               "fieldName": ch, 
               "label": app.fields[ch], 
