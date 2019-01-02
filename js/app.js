@@ -101,7 +101,7 @@
           
           
           var yearDp = document.getElementById("YR")
-          var monthDp = document.getElementById("MNTH")
+          var monthDp = document.getElementById("MNTH_1")
    
     //Create a query for use in our code.
        var query = new Query();
@@ -149,7 +149,7 @@
           //Create a query for use in our code.
        var query = new Query();
         query.where = '1=1';
-       query.outFields = ["MNTH"];
+       query.outFields = ["MNTH_1"];
        query.returnGeometry = false;
        
        var arr = [];
@@ -157,8 +157,8 @@
      app.wash.queryFeatures(query, function(featureSet) {
        //Since the "year field is not distinct, we only add the year to the empty array if it is not in there already"
        featureSet.features.forEach(function(feature){
-         if(arr.includes(feature.attributes.MNTH) === false){
-           arr.push(feature.attributes.MNTH);
+         if(arr.includes(feature.attributes.MNTH_1) === false){
+           arr.push(feature.attributes.MNTH_1);
          }
        });
 
@@ -173,7 +173,7 @@
 
      //Set the definition expression based on the value of the dropdown.
       function setDefinitionExp(value){
-    app.wash.setDefinitionExpression("MNTH = " + value);
+    app.wash.setDefinitionExpression("MNTH_1 = " + value);
    }
 
 
