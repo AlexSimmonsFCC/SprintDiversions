@@ -93,8 +93,8 @@
           
 
           // colors for the renderer
-          app.defaultFrom = Color.fromHex("#998ec3");
-          app.defaultTo = Color.fromHex("#f1a340");
+          app.defaultFrom = Color.fromHex("#ff0000");
+          app.defaultTo = Color.fromHex("#660000");
           
           
           createRenderer("market_pop");
