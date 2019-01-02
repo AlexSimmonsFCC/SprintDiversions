@@ -1,6 +1,4 @@
-
-    
-    // one global for persistent app variables
+// one global for persistent app variables
       var app = {};
       require([
         "esri/map","esri/tasks/query",
@@ -46,6 +44,7 @@
         app.map.addLayer(basemap);
         var ref = new ArcGISTiledMapServiceLayer("https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Reference_Overlay/MapServer");
         app.map.addLayer(ref);
+      
 
 
         // various info for the feature layer
@@ -303,7 +302,3 @@
           console.log('Oops, error: ', err);
         }
       });
-
- 
- 
-    
