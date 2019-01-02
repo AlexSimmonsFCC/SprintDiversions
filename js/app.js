@@ -1,44 +1,4 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
-    <title>Generate renderer</title>
-    <link rel="stylesheet" href="https://js.arcgis.com/3.27/dijit/themes/tundra/tundra.css">
-    <link rel="stylesheet" href="https://js.arcgis.com/3.27/esri/css/esri.css">
-    
-    <style>
-      html, body { height: 100%; width: 100%; margin: 0; padding: 0; }
-      #map{ margin: 0; padding: 0; }
-      #feedback {
-        position: absolute;
-        height: 600px;
-        font-family: arial;
-        margin: 5px;
-        padding: 10px;
-        z-index: 40;
-        background: #fff;
-        color: #444;
-        width: 300px;
-        left: 30px;
-        top: 30px;
-        -moz-box-shadow: 0 0 5px #888;
-        -webkit-box-shadow: 0 0 5px #888;
-        box-shadow: 0 0 5px #888;
-      }
-      #county { 
-        padding: 5px 0 0 0;
-        font-weight: 700;
-      }
-      #legendWrapper { padding: 20px 0 0 0; }
-      #yearWrapper { padding: 20px 0 0 0; }
-      #monthWrapper { padding: 20px 0 0 0; }
-      #note { font-size: 80%; font-weight: 700; padding: 0 0 10px 0; }
-      h3 { margin: 0 0 5px 0; border-bottom: 1px solid #444; }
-    </style>
-    
-    <script src="https://js.arcgis.com/3.27/"></script>
-    <script>
+
     
     // one global for persistent app variables
       var app = {};
@@ -349,40 +309,4 @@
     </script>
 
  
-     <body class="tundra">
-    <div data-dojo-type="dijit.layout.BorderContainer"
-         data-dojo-props="design:'headline',gutters:false"
-         style="width: 100%; height: 100%; margin: 0;">
-      <div id="map"
-           data-dojo-type="dijit.layout.ContentPane"
-           data-dojo-props="region:'center'">
-
-        <div id="feedback">
-          <h3>Washington State</h3>
-          <div id="info">
-            <div id="note">
-              Note:  This sample requires an ArcGIS Server version 10.1 map service to generate a renderer.
-            </div>
-            Select a field to use to create a renderer for the counties in Washington state.
-          </div>
-          <div id="legendWrapper"></div>
-          <div id="yearWrapper">
-           Select a Year:
-           <select id="YR"></select>
-           </div>
-           <br>
-          
-             <div id="monthWrapper">
-           Select a Month:
-           <select id="MNTH"></select>
-           </div>
-           <br/>
-          <br/>
-          <div id="fieldWrapper">
-            Currently selected attribute:
-          </div>
-        </div>
-      </div>
-    </div>
-  </body>
-</html>
+    
