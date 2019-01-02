@@ -105,7 +105,7 @@
    
     //Create a query for use in our code.
        var query = new Query();
-       query.where = '1=1';
+       //query.where = '1=1';
        query.outFields = ["YR"];
        query.returnGeometry = false;
        
@@ -148,7 +148,7 @@
           
           //Create a query for use in our code.
        var query = new Query();
-       query.where = '1=1';
+      // query.where = '1=1';
        query.outFields = ["MNTH"];
        query.returnGeometry = false;
        
