@@ -101,26 +101,28 @@
           
           
           var yearDp = document.getElementById("YR")
-          var monthDp = document.getElementById("MNTH_1")
+          var monthDp = document.getElementById("MNTH")
    
+
+
     //Create a query for use in our code.
        var query = new Query();
        query.where = '1=1';
        query.outFields = ["YR"];
        query.returnGeometry = false;
        
-       var arr = [];
+       var arr1 = [];
 
      app.wash.queryFeatures(query, function(featureSet) {
        //Since the "year field is not distinct, we only add the year to the empty array if it is not in there already"
        featureSet.features.forEach(function(feature){
-         if(arr.includes(feature.attributes.YR) === false){
-           arr.push(feature.attributes.YR);
+         if(arr1.includes(feature.attributes.YR) === false){
+           arr1.push(feature.attributes.YR);
          }
        });
 
        // For each unique year, create an option and add it to the dropdown list.
-       arr.forEach(function(year){
+       arr1.forEach(function(year){
         var option = document.createElement("option");
         option.text = year;
         yearDp.add(option);
@@ -139,17 +141,11 @@
        var type = e.target.value;
        setDefinitionExp(type);
    });
-          
-          
-          
-          
-          
-          
-          
+
           //Create a query for use in our code.
        var query = new Query();
         query.where = '1=1';
-       query.outFields = ["MNTH_1"];
+       query.outFields = ["MNTH"];
        query.returnGeometry = false;
        
        var arr = [];
@@ -157,15 +153,15 @@
      app.wash.queryFeatures(query, function(featureSet) {
        //Since the "year field is not distinct, we only add the year to the empty array if it is not in there already"
        featureSet.features.forEach(function(feature){
-         if(arr.includes(feature.attributes.MNTH_1) === false){
-           arr.push(feature.attributes.MNTH_1);
+         if(arr.includes(feature.attributes.MNTH) === false){
+           arr.push(feature.attributes.MNTH);
          }
        });
 
        // For each unique year, create an option and add it to the dropdown list.
-       arr.forEach(function(year){
+       arr.forEach(function(month){
         var option = document.createElement("option");
-        option.text = year;
+        option.text = month;
         monthDp.add(option);
       });
       setDefinitionExp(monthDp.value);
@@ -173,7 +169,7 @@
 
      //Set the definition expression based on the value of the dropdown.
       function setDefinitionExp(value){
-    app.wash.setDefinitionExpression("MNTH_1 = " + value);
+    app.wash.setDefinitionExpression("MNTH = " + value);
    }
 
 
@@ -182,14 +178,11 @@
        var type = e.target.value;
        setDefinitionExp(type);
    });
-          
-        
-          
-          
+                 
         });
         
+
         app.map.on("zoom-end", updateMaxOffset);
-            
 
         // create a store and a filtering select for the county layer's fields
         var fieldNames, fieldStore, fieldSelect;
