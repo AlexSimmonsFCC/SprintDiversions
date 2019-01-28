@@ -48,7 +48,7 @@
 
 
         // various info for the feature layer
-        app.countiesUrl = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/ArcGIS/rest/services/CMA_Join_2/FeatureServer/0";
+        app.countiesUrl = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_MultTiles/FeatureServer/0";
         //app.layerDef = "STATE_NAME = 'Washington'";
         app.outFields = ["swdiversio","market_pop"];
         app.currentAttribute = "market_pop";
