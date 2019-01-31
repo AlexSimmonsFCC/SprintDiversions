@@ -1,3 +1,108 @@
+// HTML
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title>Generate renderer</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/3.27/dijit/themes/tundra/tundra.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.27/esri/css/esri.css">
+    
+    <style>
+      html, body { height: 100%; width: 100%; margin: 0; padding: 0; }
+      #map{ margin: 0; padding: 0; }
+      #feedback {
+        position: absolute;
+        height: 600px;
+        font-family: arial;
+        margin: 5px;
+        padding: 10px;
+        z-index: 40;
+        background: #fff;
+        color: #444;
+        width: 300px;
+        left: 30px;
+        top: 30px;
+        -moz-box-shadow: 0 0 5px #888;
+        -webkit-box-shadow: 0 0 5px #888;
+        box-shadow: 0 0 5px #888;
+      }
+      #county { 
+        padding: 5px 0 0 0;
+        font-weight: 700;
+      }
+      #legendWrapper { padding: 20px 0 0 0; }
+      #yearWrapper { padding: 20px 0 0 0; }
+      #monthWrapper { padding: 20px 0 0 0; }
+      #note { font-size: 80%; font-weight: 700; padding: 0 0 10px 0; }
+      h3 { margin: 0 0 5px 0; border-bottom: 1px solid #444; }
+    </style>
+        
+        
+    <script>
+  var dojoConfig = {
+    has: {
+      "esri-featurelayer-webgl": 1
+    }
+  };
+</script>    
+    
+    
+        <script src="https://js.arcgis.com/3.27/"></script>
+        <script src="CarrierMap128.js"></script>
+        
+        
+        </head>
+
+   <body class="tundra">
+    <div data-dojo-type="dijit.layout.BorderContainer"
+         data-dojo-props="design:'headline',gutters:false"
+         style="width: 100%; height: 100%; margin: 0;">
+      <div id="map"
+           data-dojo-type="dijit.layout.ContentPane"
+           data-dojo-props="region:'center'">
+
+        <div id="feedback">
+          <h3>Verizon Carrier Diversions</h3>
+          <div id="info">
+            <div id="note">
+              Note:  This sample requires an ArcGIS Server version 10.1 map service to generate a renderer.
+            </div>
+            Select a field to use to create a renderer for the counties in Washington state.
+          </div>
+          <div id="legendWrapper"></div>
+          <div id="yearWrapper">
+           Select a Year:
+           <select id="YR"></select>
+           </div>
+           <br>
+          
+             <div id="monthWrapper">
+           Select a Month:
+           <select id="MNTH"></select>
+           </div>
+           <br/>
+          <br/>
+          <div>
+            <button id="filterBtn">Filter</button>
+          </div>
+          <br>
+          <div id="fieldWrapper">
+            Select a Diversion Direction:
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+
+// Javascript
+
+
 var app = {};
 require([
   "esri/map", "esri/tasks/query",
@@ -30,10 +135,11 @@ require([
   // names to more user friendly field names
   app.fields = {
     "market_pop": "Market Population",
-    "swdiversio": "Verizon to Verizon"
+    "TtoS": "Verizon to Sprint",
+    "TtoA": "Verizon to AT&T",
+    "TtoV": "Verizon to Verizon",
+    "TtoT"  "Verizon to T-Mobile"
   };
-
-
 
   app.map = new Map("map", {
     center: [-123.113, 47.035],
@@ -46,11 +152,11 @@ require([
   app.map.addLayer(ref);
 
   // various info for the feature layer
-  app.countiesUrl = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/ArcGIS/rest/services/CMA_Join_2/FeatureServer/0";
-  app.outFields = ["swdiversio", "market_pop"];
+  app.countiesUrl = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_Full/FeatureServer";
+  app.outFields = ["TtoS","TtoA","TtoV","TtoT", "market_pop"];
   app.currentAttribute = "market_pop";
   app.popupTemplate = new PopupTemplate({
-    title: "{cmaname} County",
+    title: "{MarketName}",
     fieldInfos: [{
       "fieldName": app.currentAttribute,
       "label": app.fields[app.currentAttribute],
