@@ -1,3 +1,4 @@
+// one global for persistent app variables
 var app = {};
 require([
   "esri/map", "esri/tasks/query",
