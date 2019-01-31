@@ -1,5 +1,4 @@
-// one global for persistent app variables
-      var app = {};
+var app = {};
       require([
         "esri/map","esri/tasks/query",
         "esri/layers/ArcGISTiledMapServiceLayer", "esri/layers/FeatureLayer", 
@@ -48,7 +47,7 @@
 
 
         // various info for the feature layer
-        app.countiesUrl = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/ArcGIS/rest/services/CMA_Join_2/FeatureServer/0";
+        app.countiesUrl = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_Service/FeatureServer/0";
         //app.layerDef = "STATE_NAME = 'Washington'";
         app.outFields = ["swdiversio","market_pop"];
         app.currentAttribute = "market_pop";
@@ -93,8 +92,8 @@
           
 
           // colors for the renderer
-          app.defaultFrom = Color.fromHex("#ff0000");
-          app.defaultTo = Color.fromHex("#660000");
+          app.defaultFrom = Color.fromHex("#998ec3");
+          app.defaultTo = Color.fromHex("#f1a340");
           
           
           createRenderer("market_pop");
@@ -103,26 +102,24 @@
           var yearDp = document.getElementById("YR")
           var monthDp = document.getElementById("MNTH")
    
-
-
     //Create a query for use in our code.
        var query = new Query();
        query.where = '1=1';
        query.outFields = ["YR"];
        query.returnGeometry = false;
        
-       var arr1 = [];
+       var arr = [];
 
      app.wash.queryFeatures(query, function(featureSet) {
        //Since the "year field is not distinct, we only add the year to the empty array if it is not in there already"
        featureSet.features.forEach(function(feature){
-         if(arr1.includes(feature.attributes.YR) === false){
-           arr1.push(feature.attributes.YR);
+         if(arr.includes(feature.attributes.YR) === false){
+           arr.push(feature.attributes.YR);
          }
        });
 
        // For each unique year, create an option and add it to the dropdown list.
-       arr1.forEach(function(year){
+       arr.forEach(function(year){
         var option = document.createElement("option");
         option.text = year;
         yearDp.add(option);
@@ -141,10 +138,16 @@
        var type = e.target.value;
        setDefinitionExp(type);
    });
-
+          
+          
+          
+          
+          
+          
+          
           //Create a query for use in our code.
        var query = new Query();
-        query.where = '1=1';
+       query.where = '1=1';
        query.outFields = ["MNTH"];
        query.returnGeometry = false;
        
@@ -159,9 +162,9 @@
        });
 
        // For each unique year, create an option and add it to the dropdown list.
-       arr.forEach(function(month){
+       arr.forEach(function(year){
         var option = document.createElement("option");
-        option.text = month;
+        option.text = year;
         monthDp.add(option);
       });
       setDefinitionExp(monthDp.value);
@@ -178,11 +181,14 @@
        var type = e.target.value;
        setDefinitionExp(type);
    });
-                 
+          
+        
+          
+          
         });
         
-
         app.map.on("zoom-end", updateMaxOffset);
+            
 
         // create a store and a filtering select for the county layer's fields
         var fieldNames, fieldStore, fieldSelect;
