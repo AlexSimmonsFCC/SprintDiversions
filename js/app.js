@@ -37,7 +37,7 @@ require([
 
   app.map = new Map("map", {
     center: [-95.3, 38.397],
-    zoom: 4,
+    zoom: 5,
     slider: false
   });
   var basemap = new ArcGISTiledMapServiceLayer("https://services.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer");
