@@ -51,7 +51,7 @@ require([
   app.outFields = ["swdiversio", "market_pop","MarketName"];
   app.currentAttribute = "market_pop";
   app.popupTemplate = new PopupTemplate({
-    title: "{MarketName}@",
+    title: "{MarketName}",
     fieldInfos: [{
       "fieldName": app.currentAttribute,
       "label": app.fields[app.currentAttribute],
