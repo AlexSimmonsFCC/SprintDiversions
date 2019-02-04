@@ -190,7 +190,7 @@ require([
   });
 
   fieldStore = new ItemFileReadStore({
-    data: fieldNames
+    data: [{name:"January", id:"1"}]
   });
   fieldSelect = new FilteringSelect({
     displayedValue: fieldNames.items[0].name,
