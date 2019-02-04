@@ -279,7 +279,7 @@ require([
       map: map,
       layerInfos: [{
         layer: fl,
-        title: ""
+        title: "Test"
       }]
     }, legendDiv);
     app.legend.startup();
