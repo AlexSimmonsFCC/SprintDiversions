@@ -29,9 +29,8 @@ require([
   // set up an object to use as a lookup table to convert from terse field
   // names to more user friendly field names
   app.fields = {
-    "market_pop": "Market Population",
     "TtoV": "Verizon to Verizon",
-    "MarketName": "MarketName"
+    "TtoS": "Verizon to Sprint",
   };
 
 
@@ -48,7 +47,7 @@ require([
 
   // various info for the feature layer
   app.countiesUrl = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_Full/FeatureServer/0";
-  app.outFields = ["TtoV", "market_pop","MarketName"];
+  app.outFields = ["TtoV", "TtoS"];
   app.currentAttribute = "TtoV";
   app.popupTemplate = new PopupTemplate({
     title: "{MarketName}",
