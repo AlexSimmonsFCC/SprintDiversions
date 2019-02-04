@@ -30,7 +30,7 @@ require([
   // names to more user friendly field names
   app.fields = {
     "market_pop": "Market Population",
-    "swdiversio": "Verizon to Verizon",
+    "TtoV": "Verizon to Verizon",
     "MarketName": "MarketName"
   };
 
@@ -48,8 +48,8 @@ require([
 
   // various info for the feature layer
   app.countiesUrl = "https://services.arcgis.com/YnOQrIGdN9JGtBh4/arcgis/rest/services/CMA_Full/FeatureServer/0";
-  app.outFields = ["swdiversio", "market_pop","MarketName"];
-  app.currentAttribute = "market_pop";
+  app.outFields = ["TtoV", "market_pop","MarketName"];
+  app.currentAttribute = "TtoV";
   app.popupTemplate = new PopupTemplate({
     title: "{MarketName}",
     fieldInfos: [{
