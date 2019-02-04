@@ -278,8 +278,7 @@ require([
     app.legend = new Legend({
       map: map,
       layerInfos: [{
-        layer: fl,
-        title: "Census Attribute: " + app.fields[app.currentAttribute]
+        layer: fl
       }]
     }, legendDiv);
     app.legend.startup();
