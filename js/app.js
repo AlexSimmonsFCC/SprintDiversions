@@ -29,11 +29,10 @@ require([
   // set up an object to use as a lookup table to convert from terse field
   // names to more user friendly field names
   app.fields = {
-    "TtoV": "Verizon to Verizon",
-    "TtoS": "Verizon to Sprint",
-    "TtoA": "Verison to AT&T",
-    "TtoO": "Verizon to Other"
-    
+    "TtoV": "Sprint to Sprint",
+    "TtoS": "Sprint to Verizon",
+    "TtoA": "Sprint to AT&T",
+    "TtoO": "Sprint to Other"
   };
 
 
@@ -92,8 +91,8 @@ require([
 
 
     // colors for the renderer
-    app.defaultFrom = Color.fromHex("#ff0000");
-    app.defaultTo = Color.fromHex("#660000");
+    app.defaultFrom = Color.fromHex("#F8FF0C");
+    app.defaultTo = Color.fromHex("#A6AA26");
 
 
     createRenderer("market_pop");
