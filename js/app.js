@@ -58,7 +58,7 @@ require([
       "label": app.fields[app.currentAttribute],
       "visible": true,
       "format": {
-        places: 0,
+        places: 4,
         digitSeparator: true
       }
     }],
