@@ -91,8 +91,8 @@ require([
 
 
     // colors for the renderer
-    app.defaultFrom = Color.fromHex("#F8FF0C");
-    app.defaultTo = Color.fromHex("#A6AA26");
+    app.defaultFrom = Color.fromHex("#A6AA26");
+    app.defaultTo = Color.fromHex("#F8FF0C");
 
 
     createRenderer("market_pop");
